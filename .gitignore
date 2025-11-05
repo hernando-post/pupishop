@@ -28,3 +28,7 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+[submodule "pupishop"]
+    path = pupishop
+    url = https://github.com/usuario/pupishop.git
