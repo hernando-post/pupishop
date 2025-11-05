@@ -39,7 +39,7 @@ const router = useRouter()
 const isRegister = ref(false)
 const email = ref('')
 const password = ref('')
-import localImage from '/assets/logo.png';
+import localImage from '@/assets/logo.png';
 
 const localImageRef = ref(localImage);
 
