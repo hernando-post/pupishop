@@ -19,7 +19,17 @@ const app = createApp({
   },
   render: () => h(App)
 });
-
+router.beforeEach(async (to, from, next) => { 
+  if (to.matched.some(record => record.meta.protected)) {
+      const isAuthenticated = await nhost.auth.isAuthenticatedAsync()  
+      if (!isAuthenticated) {
+          return next('/login')
+      }
+  }
+  next()
+  const hideNavbar = to.meta.hideNavbar
+  
+})
 app.use(nhost)
 app.use(router)
 app.use(pinia)
