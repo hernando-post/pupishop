@@ -32,7 +32,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-
+import {
+  useSignInEmailPassword,
+  useSignUpEmailPassword
+} from '@nhost/vue'
 import { useNhostClient } from '@nhost/vue'; 
 const { nhost } = useNhostClient();
 const router = useRouter()
@@ -42,8 +45,9 @@ const password = ref('')
 import localImage from '@/assets/logo.png';
 
 const localImageRef = ref(localImage);
-
-const registerOrLogin = async () => {
+const { signUpEmailPassword } = useSignUpEmailPassword()
+const { signInEmailPassword } = useSignInEmailPassword()
+/* const registerOrLogin = async () => {
   if (!email.value || !password.value) {
     return alert("Por favor llene todos los campos")
   }
@@ -54,8 +58,27 @@ const registerOrLogin = async () => {
     alert(error.message);
   }
  
-}
+} */
+const registerOrLogin = async () => {
+  if (!email.value || !password.value) {
+    return alert("Please fill in all fields")
+  }
+  try {
+    if (isRegister.value) {
+      await signUpEmailPassword(email.value, password.value);
+     } else {
+      await signInEmailPassword(email.value, password.value);
+    }
+    localStorage.setItem('userEmail', email.value);
+    
+    router.push('/');
+  } catch (error) {
+    alert(error.message);
+  }
+  
 
+  router.push('/')
+}
 </script>
 <style scoped>
 body {
